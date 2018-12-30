@@ -51,6 +51,38 @@ public class Table {
 
 	private ArrayList<Row> tableRows;
 	
+	private ArrayList<Row> selectedRows;
+	
+	private ArrayList<String>selectedColumns;
+	
+	/**
+	 * @return the selectedColumns
+	 */
+	public ArrayList<String> getSelectedColumns() {
+		return selectedColumns;
+	}
+
+	/**
+	 * @param selectedColumns the selectedColumns to set
+	 */
+	public void setSelectedColumns(ArrayList<String> selectedColumns) {
+		this.selectedColumns = selectedColumns;
+	}
+
+	/**
+	 * @return the selectedRows
+	 */
+	public ArrayList<Row> getSelectedRows() {
+		return selectedRows;
+	}
+
+	/**
+	 * @param selectedRows the selectedRows to set
+	 */
+	public void setSelectedRows(ArrayList<Row> selectedRows) {
+		this.selectedRows = selectedRows;
+	}
+
 	private Table() {
 		this.databaseName = new String();
 		this.tableName = new String();
@@ -74,8 +106,10 @@ public class Table {
 			}
 		}
 		// to save the table before select anther one.
-		if(table!=null) {
+		if(table!=null&&!table.getColumnTypes().isEmpty()&&!table.getRows().isEmpty()) {
 			FileManager.getInstance().writeTable(table);
+		}else {
+			tables.remove(table);
 		}
 		if (currenDataBaseName == null) {
 			return null;
@@ -236,7 +270,7 @@ public class Table {
 
 		@Override
 		public void run(){
-			if(table!=null&&!table.getColumnTypes().isEmpty()&&!table.getRows().isEmpty()) {
+			if(table!=null&&!table.getColumnTypes().isEmpty()) {
 				FileManager.getInstance().writeTable(table);
 				System.out.println("Done ;)");
 			}
